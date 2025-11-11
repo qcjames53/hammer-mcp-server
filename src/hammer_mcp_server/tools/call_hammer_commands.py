@@ -2,6 +2,8 @@ from fastmcp.tools.tool import ToolResult
 
 from ..utils.hammer_utils import (
     execute_hammer_command_for_tool,
+    lifecycle_environment_create,
+    lifecycle_environment_delete,
 )
 
 
@@ -20,4 +22,47 @@ def register_hammer_commands(mcp):
         },
     )
     async def execute_hammer(command: str) -> ToolResult:
+        return await execute_hammer_command_for_tool(command)
+
+    @mcp.tool(
+        description="Create a new lifecycle environment in Foreman. Requires organization name, "
+        "new lifecycle environment name, and the name of the prior lifecycle environment.",
+        tags=("hammer", "lifecycle-environment", "create", "destructive"),
+        annotations={
+            "title": "Execute Hammer CLI Lifecycle Environment Create",
+            "readOnlyHint": False,
+            "destructiveHint": True,
+            "idempotentHint": False,
+            "openWorldHint": False,
+        },
+    )
+    async def execute_hammer_lifecycle_environment_create(
+        organization_name: str,
+        lifecycle_environment_name: str,
+        prior_lifecycle_environment_name: str = "Library",
+    ) -> ToolResult:
+        command = lifecycle_environment_create(
+            organization_name,
+            lifecycle_environment_name,
+            prior_lifecycle_environment_name,
+        )
+        return await execute_hammer_command_for_tool(command)
+
+    @mcp.tool(
+        description="Delete a lifecycle environment in Foreman. Requires organization name and lifecycle environment name.",
+        tags=("hammer", "lifecycle-environment", "delete", "destructive"),
+        annotations={
+            "title": "Execute Hammer CLI Lifecycle Environment Delete",
+            "readOnlyHint": False,
+            "destructiveHint": True,
+            "idempotentHint": False,
+            "openWorldHint": False,
+        },
+    )
+    async def execute_hammer_lifecycle_environment_delete(
+        organization_name: str, lifecycle_environment_name: str
+    ) -> ToolResult:
+        command = lifecycle_environment_delete(
+            organization_name, lifecycle_environment_name
+        )
         return await execute_hammer_command_for_tool(command)

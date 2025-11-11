@@ -71,3 +71,27 @@ async def execute_hammer_command_for_resource(command: str) -> str:
         return stdout.decode("utf-8")
     else:
         return f"error: Hammer CLI command failed with error: {stderr.decode('utf-8')}"
+
+
+def lifecycle_environment_list() -> str:
+    return "lifecycle-environment list"
+
+
+def lifecycle_environment_info(
+    organization_name: str, lifecycle_environment_name: str
+) -> str:
+    return f"lifecycle-environment info --organization {shlex.quote(organization_name)} --name {shlex.quote(lifecycle_environment_name)}"
+
+
+def lifecycle_environment_create(
+    organization_name: str,
+    lifecycle_environment_name: str,
+    prior_lifecycle_environment_name: str,
+) -> str:
+    return f'lifecycle-environment create --organization {shlex.quote(organization_name)} --name {shlex.quote(lifecycle_environment_name)} --prior {shlex.quote(prior_lifecycle_environment_name)} --description "Created by Hammer MCP Server"'
+
+
+def lifecycle_environment_delete(
+    organization_name: str, lifecycle_environment_name: str
+) -> str:
+    return f"lifecycle-environment delete --organization {shlex.quote(organization_name)} --name {shlex.quote(lifecycle_environment_name)}"
