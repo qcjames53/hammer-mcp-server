@@ -95,3 +95,34 @@ def lifecycle_environment_delete(
     organization_name: str, lifecycle_environment_name: str
 ) -> str:
     return f"lifecycle-environment delete --organization {shlex.quote(organization_name)} --name {shlex.quote(lifecycle_environment_name)}"
+
+
+# Organization utility functions
+def organization_list() -> str:
+    """Generate hammer organization list command."""
+    return "organization list"
+
+
+def organization_info(name: str) -> str:
+    """Generate hammer organization info command."""
+    return f"organization info --name {shlex.quote(name)}"
+
+
+def organization_create(name: str) -> str:
+    """Generate hammer organization create command."""
+    return f'organization create --name {shlex.quote(name)} --description "Created by Hammer MCP Server"'
+
+
+def organization_update(name: str, new_name: str = "", description: str = "") -> str:
+    """Generate hammer organization update command."""
+    cmd = f"organization update --name {shlex.quote(name)}"
+    if new_name:
+        cmd += f" --new-name {shlex.quote(new_name)}"
+    if description:
+        cmd += f" --description {shlex.quote(description)}"
+    return cmd
+
+
+def organization_delete(name: str) -> str:
+    """Generate hammer organization delete command."""
+    return f"organization delete --name {shlex.quote(name)}"

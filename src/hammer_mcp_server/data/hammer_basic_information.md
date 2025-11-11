@@ -15,6 +15,7 @@ To get help for any hammer command, use:
 
 ## Common Subcommands
 - `hammer lifecycle-environment` - See the `hammer_lifecycle_environment_docs` resource for more information
+- `hammer organization` - See the `hammer_organization_docs` resource for more information
 
 ## Examples
 - `hammer --help` - Display all possible subcommands

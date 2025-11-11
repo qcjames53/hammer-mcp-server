@@ -26,6 +26,24 @@ def register_hammer_docs(mcp):
             return f"error: Failed to read Hammer CLI basic information: {str(e)}"
 
     @mcp.resource(
+        name="Hammer Organization Command Documentation",
+        description="Comprehensive documentation for hammer organization commands including list, info, create, update, and delete operations with examples and usage patterns.",
+        uri="hammer://organization-annotated-help-docs",
+        mime_type="text/markdown",
+    )
+    async def hammer_organization_info() -> str:
+        try:
+            data_path = files("hammer_mcp_server").joinpath(
+                "data/hammer_organization_annotated_help.md"
+            )
+            async with aiofiles.open(data_path) as f:
+                return await f.read()
+        except FileNotFoundError:
+            return "error: Hammer organization documentation file not found."
+        except Exception as e:
+            return f"error: Failed to read Hammer organization documentation: {str(e)}"
+
+    @mcp.resource(
         name="Hammer CLI Documentation Webpage",
         description="Provides access to Hammer CLI documentation from docs.theforeman.org. This resource contains information on nearly all Hammer CLI commands and their usage.",
         uri="hammer://web-documentation",
