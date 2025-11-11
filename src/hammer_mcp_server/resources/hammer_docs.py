@@ -47,3 +47,23 @@ def register_hammer_docs(mcp):
             return f"error: Request failed while fetching Hammer CLI documentation: {str(e)}"
         except Exception as e:
             return f"error: Failed to fetch Hammer CLI documentation: {str(e)}"
+
+    @mcp.resource(
+        name="Hammer CLI Lifecycle Environment Annotated Help Documentation",
+        description="Provides detailed information on actions and parameters within the `hammer lifecycle-environment` subcommand.",
+        uri="hammer://lifecycle-environment-annotated-help-docs",
+        mime_type="text/markdown",
+    )
+    async def hammer_lifecycle_environment_info() -> str:
+        try:
+            data_path = files("hammer_mcp_server").joinpath(
+                "data/hammer_lifecycle_environment_annotated_help.md"
+            )
+            async with aiofiles.open(data_path) as f:
+                return await f.read()
+        except FileNotFoundError:
+            return "error: Hammer CLI lifecycle environment help file not found."
+        except Exception as e:
+            return (
+                f"error: Failed to read Hammer CLI lifecycle environment help: {str(e)}"
+            )

@@ -2,7 +2,6 @@ import logging
 
 import click
 from fastmcp import FastMCP
-from fastmcp.server.dependencies import get_context
 from fastmcp.settings import LOG_LEVEL
 from fastmcp.utilities.logging import configure_logging
 
@@ -64,8 +63,8 @@ def main(
 
     mcp = FastMCP(name="Hammer MCP Server")
 
-    register_tools(mcp, get_context)
-    register_resources(mcp, get_context)
+    register_tools(mcp)
+    register_resources(mcp)
 
     if transport == "stdio":
         mcp.run(transport="stdio", show_banner=False)
